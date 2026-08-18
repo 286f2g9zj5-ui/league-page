@@ -31,6 +31,23 @@
         margin: 0 auto;
     }
 
+    .powerRankingNote {
+        width: 88%;
+        max-width: 680px;
+        margin: -1em auto 2.5em;
+        padding: .8em 1em;
+        box-sizing: border-box;
+        text-align: center;
+        color: #777;
+        font-size: .86em;
+        line-height: 1.5em;
+        border-top: 1px solid var(--ddd);
+    }
+
+    .powerRankingNote strong {
+        color: inherit;
+    }
+
     .leagueData {
         position: relative;
         z-index: 1;
@@ -148,6 +165,14 @@
             {/if}
         </div>
         <PowerRankings />
+        {#await nflState}
+            <!-- Keep the ranking component isolated while NFL state loads. -->
+        {:then nflStateData}
+            <div class="powerRankingNote">
+                <strong>{nflStateData.season} Rest of Season Power Rankings:</strong>
+                based on each team's projected optimal starting lineup for every remaining week. The strongest projected roster is normalized to 100.00.
+            </div>
+        {/await}
     </div>
     
     <div class="leagueData">
