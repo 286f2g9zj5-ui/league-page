@@ -52,6 +52,11 @@ export const tabs = [
                 dest: '/standings',
             },
             {
+                icon: 'history',
+                label: 'History',
+                dest: '/history',
+            },
+            {
                 icon: 'view_comfy',
                 label: 'Drafts',
                 dest: '/drafts',
