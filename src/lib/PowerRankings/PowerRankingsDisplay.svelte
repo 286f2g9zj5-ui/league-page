@@ -64,7 +64,7 @@
             x: "Manager",
             y: "Power Ranking",
             stat: "",
-            header: `${leagueData.season} Rest of Season Power Rankings`,
+            header: "Rest of Season Power Rankings",
             field: "powerScore",
             short: "ROS Power Ranking"
         };
@@ -98,37 +98,10 @@
         position: relative;
         width: 100%;
     }
-
-    .rankingNote {
-        width: 88%;
-        max-width: 680px;
-        margin: -0.5em auto 2em;
-        text-align: center;
-        color: #888;
-        font-size: 0.88em;
-        line-height: 1.45em;
-    }
-
-    .infoIcon {
-        display: inline-grid;
-        place-items: center;
-        width: 1.25em;
-        height: 1.25em;
-        margin-right: .35em;
-        border: 1px solid currentColor;
-        border-radius: 50%;
-        font-size: .78em;
-        font-weight: 700;
-        vertical-align: .08em;
-    }
 </style>
 
 {#if validGraph && !seasonOver}
     <div class="enclosure">
         <BarChart {graphs} bind:curGraph={curGraph} {leagueTeamManagers} />
-        <p class="rankingNote">
-            <span class="infoIcon" aria-hidden="true">i</span>
-            Based on each team's projected optimal starting lineup for every remaining week of the {leagueData.season} NFL season. The top projected roster is normalized to 100.00.
-        </p>
     </div>
 {/if}
