@@ -7,12 +7,17 @@ export const enableBlog = false; // requires VITE_CONTENTFUL_ACCESS_TOKEN and VI
 
 /*   STEP 2   */
 export const homepageText = `
-  <p>The best league ever.</p>
-  <p></p>
-  <p> </p>
-  <p> .</p>
-  <p> </p>
-  <p> </p>
+  <p><strong>Welcome to the NFFFFL.</strong></p>
+
+  <p>The NFFFFL is a 12-man fantasy football league built around a group of longtime friends from Fergus Falls, Minnesota. What started as another reason to follow football has grown into an annual battle for bragging rights, questionable trades, draft-day glory, and a championship that carries considerably more weight than any fantasy trophy probably should.</p>
+
+  <p>At its core, the NFFFFL is about competition between friends. Every season brings new contenders, spectacular collapses, waiver-wire miracles, trades that are debated for years, and plenty of opportunities to remind someone about the season they would rather forget.</p>
+
+  <p>With 12 managers competing year after year, the league has developed its own history, rivalries, traditions, and reputations. Championships matter. Playoff appearances are remembered. Last-place finishes aren't forgotten. Every matchup adds another chapter to the story.</p>
+
+  <p>The move to Sleeper marks the next era of the NFFFFL, but the league is bigger than any one platform. This site serves as the permanent home for the league's history — tracking seasons, standings, championships, records, managers, and all of the numbers behind years of friendly competition.</p>
+
+  <p>For twelve friends from Fergus Falls, fantasy football is never just fantasy football.</p>
 `;
 
 /*   STEP 3   */
