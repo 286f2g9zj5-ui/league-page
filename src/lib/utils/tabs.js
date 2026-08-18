@@ -26,6 +26,12 @@ export const tabs = [
         key: 'blog',
     },
     {
+        icon: 'groups',
+        label: 'Meet the Team',
+        dest: '/meet-the-team',
+        key: 'meet_the_team',
+    },
+    {
         icon: 'view_comfy',
         label: 'League Info',
         nest: true,
