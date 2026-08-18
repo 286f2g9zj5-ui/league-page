@@ -16,7 +16,22 @@ None of this, however, compares to his relationship with fantasy football. Adam 
 And then there are the trades. Everyone in the league has grown to hate Adam's relentless stream of trade proposals. No player is untouchable, no roster is safe, and no manager is more than a few days away from receiving another offer from The Redskins.`,
     scoutingReport: 'High intensity. Questionable durability. Extremely invested. Will send another trade proposal shortly.',
   },
-  { name: 'Cam', commissioner: false, age: null, averageFinish: null, background: '', photo: null },
+  {
+    name: 'Cam',
+    teamName: 'Crazy Cams',
+    commissioner: false,
+    age: null,
+    nickname: 'Cam',
+    joinedLeague: 2023,
+    averageFinish: null,
+    photo: null,
+    background: `Cam joined the NFFFFL in 2023 and has taken the league by storm ever since. He has been a consistent top-three finisher since entering the league, quickly establishing himself as one of the owners nobody wants to see near the top of the standings.
+
+His preparation style is unconventional. Cam has never completed a mock draft, but the rest of the league has been warned that if he ever does, things could get ugly. What he lacks in mock-draft reps, he makes up for with commitment during the season—most notably a willingness to wake up at 3:00 a.m. to make sure he gets the waiver-wire pickup he wants.
+
+Outside of fantasy football, Cam enjoys spending time on the lake. He is happily married and is also the proud owner of a standard poodle—none of that doodle bullshit.`,
+    scoutingReport: 'Joined in 2023 and immediately became a contender. Consistently near the top of the standings, dangerous on waivers, and apparently saving his final form for the day he completes a mock draft.',
+  },
   { name: 'Abram', commissioner: false, age: null, averageFinish: null, background: '', photo: null },
   { name: 'Alex', commissioner: false, age: null, averageFinish: null, background: '', photo: null },
   { name: 'Kevin', commissioner: true, age: null, averageFinish: null, background: '', photo: null },
