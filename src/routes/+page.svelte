@@ -34,18 +34,26 @@
     .powerRankingNote {
         width: 88%;
         max-width: 680px;
-        margin: -1em auto 2.5em;
-        padding: .8em 1em;
+        margin: 2.25em auto 3em;
+        padding: 1em 1.1em;
         box-sizing: border-box;
         text-align: center;
-        color: #777;
+        color: #888;
         font-size: .86em;
-        line-height: 1.5em;
+        line-height: 1.55em;
         border-top: 1px solid var(--ddd);
     }
 
     .powerRankingNote strong {
         color: inherit;
+    }
+
+    @media (max-width: 600px) {
+        .powerRankingNote {
+            width: 92%;
+            margin-top: 2.75em;
+            padding-top: 1.15em;
+        }
     }
 
     .leagueData {
@@ -170,7 +178,7 @@
         {:then nflStateData}
             <div class="powerRankingNote">
                 <strong>{nflStateData.season} Rest of Season Power Rankings:</strong>
-                based on each team's projected optimal starting lineup for every remaining week. The strongest projected roster is normalized to 100.00.
+                for each remaining week, the model selects the highest-projected eligible players on each roster to build that team's best legal starting lineup. Those weekly projected lineup scores are then added together for the rest of the season. The highest projected team is set to 100.00, and every other team is scored relative to it.
             </div>
         {/await}
     </div>
