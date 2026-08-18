@@ -1,12 +1,23 @@
 <script>
     import { meetTheTeamOwners } from '$lib/utils/meetTheTeam';
 
-    let selectedIndex = 0;
-    $: selected = meetTheTeamOwners[selectedIndex];
+    let selectedIndex = $state(0);
+    let selected = $derived(meetTheTeamOwners[selectedIndex]);
 
-    const previous = () => selectedIndex = (selectedIndex - 1 + meetTheTeamOwners.length) % meetTheTeamOwners.length;
-    const next = () => selectedIndex = (selectedIndex + 1) % meetTheTeamOwners.length;
+    const selectOwner = (index) => {
+        selectedIndex = Number(index);
+    };
+
+    const previous = () => {
+        selectedIndex = (selectedIndex - 1 + meetTheTeamOwners.length) % meetTheTeamOwners.length;
+    };
+
+    const next = () => {
+        selectedIndex = (selectedIndex + 1) % meetTheTeamOwners.length;
+    };
+
     const initials = (name) => name.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase();
+    const paragraphs = (text) => String(text || '').split(/\n\s*\n/).filter(Boolean);
 </script>
 
 <style>
@@ -15,7 +26,8 @@
         z-index: 1;
         width: 94%;
         max-width: 1220px;
-        margin: 6.5em auto 10em;
+        margin: 6.5em auto 12em;
+        padding-bottom: 4em;
     }
 
     .pageHeader {
@@ -52,7 +64,6 @@
     .pager {
         display: flex;
         align-items: center;
-        gap: .2em;
         border: 1px solid var(--d7d7d7);
         border-radius: 999px;
         background: var(--f8f8f8);
@@ -117,7 +128,6 @@
         background: transparent;
         color: inherit;
         cursor: pointer;
-        transition: background .15s ease, transform .15s ease;
     }
 
     .owner:last-child { border-bottom: 0; }
@@ -179,18 +189,21 @@
 
     .profile {
         position: relative;
-        overflow: hidden;
         border: 1px solid var(--d7d7d7);
         border-radius: 16px;
         background: var(--f8f8f8);
         box-shadow: 0 8px 30px var(--boxShadowThree);
+        overflow: visible;
     }
 
     .profile::before {
         content: '';
         position: absolute;
-        inset: 0 0 auto 0;
+        top: 0;
+        left: 0;
+        right: 0;
         height: 6px;
+        border-radius: 16px 16px 0 0;
         background: #920505;
     }
 
@@ -213,6 +226,7 @@
         height: 210px;
         border: 5px solid var(--fff);
         box-shadow: 0 8px 28px var(--boxShadowTwo);
+        box-sizing: border-box;
     }
 
     .photo {
@@ -222,9 +236,7 @@
         background: var(--ddd);
     }
 
-    .placeholderPhoto {
-        font-size: 3.6em;
-    }
+    .placeholderPhoto { font-size: 3.6em; }
 
     .teamChip {
         position: absolute;
@@ -279,6 +291,7 @@
         border-radius: 10px;
         padding: .9em 1em;
         background: var(--fff);
+        min-width: 0;
     }
 
     .label {
@@ -292,9 +305,10 @@
 
     .value {
         display: block;
-        font-size: 1.35em;
+        font-size: 1.2em;
         font-weight: 800;
         margin-top: .3em;
+        overflow-wrap: anywhere;
     }
 
     .profileBody {
@@ -304,12 +318,14 @@
     }
 
     .bio, .scouting {
-        padding: 2em 2.4em 2.3em;
+        padding: 2em 2.4em 2.6em;
+        min-width: 0;
     }
 
     .scouting {
         border-left: 1px solid var(--d7d7d7);
         background: rgba(146, 5, 5, .035);
+        border-radius: 0 0 16px 0;
     }
 
     .sectionLabel {
@@ -321,7 +337,7 @@
         font-weight: 800;
         letter-spacing: .1em;
         text-transform: uppercase;
-        margin-bottom: .9em;
+        margin-bottom: 1em;
     }
 
     .sectionLabel::before {
@@ -334,27 +350,22 @@
     .bio p, .scouting p {
         color: #777;
         line-height: 1.72em;
-        margin: 0;
-        white-space: pre-line;
+        margin: 0 0 1.1em;
+        overflow-wrap: anywhere;
     }
 
-    .scouting p {
-        font-size: .95em;
-        font-weight: 600;
-    }
-
+    .bio p:last-child, .scouting p:last-child { margin-bottom: 0; }
+    .scouting p { font-size: .95em; font-weight: 600; }
     .empty { font-style: italic; }
 
-    .mobileRail {
-        display: none;
-    }
+    .mobileRail { display: none; }
 
     @media (max-width: 900px) {
         .layout { grid-template-columns: 235px minmax(0, 1fr); }
         .profileHero { grid-template-columns: 170px minmax(0, 1fr); gap: 1.5em; padding: 2em; }
         .photoWrap, .photo, .placeholderPhoto { width: 165px; height: 165px; }
         .profileBody { grid-template-columns: 1fr; }
-        .scouting { border-left: 0; border-top: 1px solid var(--d7d7d7); }
+        .scouting { border-left: 0; border-top: 1px solid var(--d7d7d7); border-radius: 0 0 16px 16px; }
         .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
@@ -400,7 +411,6 @@
         }
         .photoWrap { margin: 0 auto .8em; }
         .stats { text-align: left; }
-        .profileKicker { margin-top: .3em; }
         .bio, .scouting { padding: 1.5em; }
     }
 
@@ -422,15 +432,15 @@
         </div>
 
         <div class="pager" aria-label="Owner navigation">
-            <button onclick={previous} aria-label="Previous owner">‹</button>
+            <button type="button" onclick={previous} aria-label="Previous owner">‹</button>
             <span class="pagerCount">{selectedIndex + 1} / {meetTheTeamOwners.length}</span>
-            <button onclick={next} aria-label="Next owner">›</button>
+            <button type="button" onclick={next} aria-label="Next owner">›</button>
         </div>
     </header>
 
     <div class="mobileRail" aria-label="Select league owner">
         {#each meetTheTeamOwners as owner, index}
-            <button class="mobileOwner" class:active={selectedIndex === index} onclick={() => selectedIndex = index}>
+            <button type="button" class="mobileOwner" class:active={selectedIndex === index} onclick={() => selectOwner(index)}>
                 {owner.name}
             </button>
         {/each}
@@ -440,7 +450,7 @@
         <aside class="owners">
             <div class="ownersTitle">League Owners · {meetTheTeamOwners.length}</div>
             {#each meetTheTeamOwners as owner, index}
-                <button class="owner" class:active={selectedIndex === index} onclick={() => selectedIndex = index}>
+                <button type="button" class="owner" class:active={selectedIndex === index} onclick={() => selectOwner(index)}>
                     <span class="ownerAvatar">
                         {#if owner.photo}
                             <img src={owner.photo} alt="" />
@@ -494,7 +504,9 @@
                 <div class="bio">
                     <div class="sectionLabel">Background</div>
                     {#if selected.background}
-                        <p>{selected.background}</p>
+                        {#each paragraphs(selected.background) as paragraph}
+                            <p>{paragraph}</p>
+                        {/each}
                     {:else}
                         <p class="empty">Biography and league history coming soon. This profile will be expanded as the NFFFFL archive is completed.</p>
                     {/if}
