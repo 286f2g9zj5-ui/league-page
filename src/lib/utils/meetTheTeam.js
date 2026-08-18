@@ -32,7 +32,20 @@ His preparation style is unconventional. Cam has never completed a mock draft, b
 Outside of fantasy football, Cam enjoys spending time on the lake. He is happily married and is also the proud owner of a standard poodle—none of that doodle bullshit.`,
     scoutingReport: 'Joined in 2023 and immediately became a contender. Consistently near the top of the standings, dangerous on waivers, and apparently saving his final form for the day he completes a mock draft.',
   },
-  { name: 'Abram', commissioner: false, age: null, averageFinish: null, background: '', photo: null },
+  {
+    name: 'Abram',
+    commissioner: false,
+    age: 30,
+    nickname: 'Abe / Donkey',
+    averageFinish: null,
+    photo: null,
+    background: `Abram—better known around the league as Abe or Donkey—is 30 years old and brings a former college football pedigree to the NFFFFL. He played college football for the Spartans, and the rallying cry remains the same: Swords Up.
+
+Away from football, Abe is in a relationship and patiently waiting for her to propose. On the fantasy side, patience takes on a different meaning. He forms deep, long-term attachments to his keepers and has shown very little interest in letting age or an increasingly concerning injury history get between him and the players he loves. Christian McCaffrey is the prime example: old, injury prone, and still firmly protected under Donkey's watch.
+
+Abe is also a dedicated attendee of NFFFFL draft weekends and can be counted on to enjoy everything the weekend has to offer. Just don't count on him for the morning cleanup. By the time Donkey wakes up, the garbage bags are usually tied, the counters are wiped down, and the responsible members of the league have already finished the job.`,
+    scoutingReport: 'Former college football player. Loyal to a fault. Treats longtime keepers like family heirlooms and morning cleanup like an optional team activity. Swords Up.',
+  },
   { name: 'Alex', commissioner: false, age: null, averageFinish: null, background: '', photo: null },
   { name: 'Kevin', commissioner: true, age: null, averageFinish: null, background: '', photo: null },
   { name: 'Dane', commissioner: false, age: null, averageFinish: null, background: '', photo: null },
