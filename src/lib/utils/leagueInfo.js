@@ -1,7 +1,7 @@
 /*   STEP 1   */
 export const leagueID = "1392707344101560320"; // your league ID
 export const leagueName = "NFFFFL"; // your league name
-export const dues = 100; // (optional) used in template constitution page
+export const dues = 150; // annual league dues per team
 export const dynasty = true; // true for dynasty leagues, false for redraft and keeper
 export const enableBlog = false; // requires VITE_CONTENTFUL_ACCESS_TOKEN and VITE_CONTENTFUL_SPACE environment variables
 
@@ -101,7 +101,7 @@ export const managers = [
   
   /*   !!  !!  IMPORTANT  !!  !! */
   /*
-  Below is the most up to-date version of a manager. Please leave this commented out
+  Below is the most up-to-date version of a manager. Please leave this commented out
   and don't delete it. This will be updated if any fields are added, removed or changed
   and will allow updates without causing merge conflicts
   */
