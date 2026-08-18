@@ -1,6 +1,6 @@
 <script>
     import List, { Item, Graphic, Separator, Text } from '@smui/list';
-import { dynasty } from './utils/helper';
+    import { dynasty } from './utils/helper';
 
     const today = new Date();
     const resources = [
@@ -116,7 +116,6 @@ import { dynasty } from './utils/helper';
         box-shadow: 0px 3px 3px -2px var(--boxShadowOne), 0px 3px 4px 0px var(--boxShadowTwo), 0px 1px 8px 0px var(--boxShadowThree);
     }
 
-
     :global(.linkText) {
         font-size: 1.1em;
     }
@@ -131,16 +130,22 @@ import { dynasty } from './utils/helper';
         text-align: center;
     }
 
-    .disclaimer {
+    .intro, .disclaimer {
         color: #888;
         text-align: center;
+        width: 90%;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
     }
 </style>
 
 <div class="pageBody">
     <div class="banner">
-        <h4>Helpful Dynasty Resources</h4>
+        <h4>NFFFFL War Room</h4>
     </div>
+
+    <p class="intro">Research, rankings, trade tools, and dynasty resources for managers looking for an edge before the next NFFFFL decision.</p>
 
     <List class="list" dense>
         {#each resources as resource}
