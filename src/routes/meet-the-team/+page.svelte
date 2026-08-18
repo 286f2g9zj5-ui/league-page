@@ -6,102 +6,508 @@
 
     const previous = () => selectedIndex = (selectedIndex - 1 + meetTheTeamOwners.length) % meetTheTeamOwners.length;
     const next = () => selectedIndex = (selectedIndex + 1) % meetTheTeamOwners.length;
+    const initials = (name) => name.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase();
 </script>
 
 <style>
-    .page { position: relative; z-index: 1; width: 94%; max-width: 1150px; margin: 7em auto 10em; }
-    h1 { margin-bottom: .25em; font-size: 2.4em; }
-    .subtitle { color: #888; margin-bottom: 2em; }
-    .controls { display: flex; gap: .75em; align-items: center; margin-bottom: 1.5em; }
-    select, button { background: var(--f8f8f8); color: inherit; border: 1px solid var(--d7d7d7); border-radius: 6px; padding: .75em 1em; font: inherit; }
-    select { min-width: 230px; }
-    button { cursor: pointer; }
-    .layout { display: grid; grid-template-columns: 250px 1fr; gap: 1.5em; }
-    .owners, .profile { border: 1px solid var(--d7d7d7); border-radius: 8px; overflow: hidden; background: var(--f8f8f8); }
-    .ownersTitle { padding: 1em; font-weight: 700; border-bottom: 1px solid var(--d7d7d7); }
-    .owner { width: 100%; border: 0; border-radius: 0; text-align: left; padding: .9em 1em; border-bottom: 1px solid var(--d7d7d7); background: transparent; }
-    .owner.active { font-weight: 700; background: rgba(146, 5, 5, .12); }
-    .commissioner { display: block; font-size: .75em; color: #888; margin-top: .25em; }
-    .profile { padding: 2em; }
-    .profileTop { display: grid; grid-template-columns: 180px 1fr; gap: 2em; align-items: center; }
-    .photo { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 2px solid var(--d7d7d7); }
-    .placeholderPhoto { width: 180px; height: 180px; border-radius: 50%; border: 2px solid var(--d7d7d7); display: grid; place-items: center; font-size: 4em; color: #888; }
-    .name { font-size: 2.2em; margin: 0 0 .2em; }
-    .role { color: #920505; font-weight: 600; }
-    .stats { display: grid; grid-template-columns: repeat(2, minmax(120px, 1fr)); gap: 1em; margin-top: 1.5em; }
-    .stat { border-top: 1px solid var(--d7d7d7); padding-top: .8em; }
-    .label { display: block; color: #888; font-size: .8em; text-transform: uppercase; letter-spacing: .05em; }
-    .value { display: block; font-size: 1.35em; font-weight: 700; margin-top: .25em; }
-    .background { margin-top: 2em; padding-top: 1.5em; border-top: 1px solid var(--d7d7d7); }
-    .background p { color: #777; line-height: 1.6em; }
+    .page {
+        position: relative;
+        z-index: 1;
+        width: 94%;
+        max-width: 1220px;
+        margin: 6.5em auto 10em;
+    }
+
+    .pageHeader {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 2em;
+        margin-bottom: 2em;
+    }
+
+    .eyebrow {
+        display: block;
+        color: #920505;
+        font-size: .78em;
+        font-weight: 800;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+        margin-bottom: .6em;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: clamp(2.5em, 5vw, 4.25em);
+        line-height: .95em;
+        letter-spacing: -.035em;
+    }
+
+    .subtitle {
+        color: #888;
+        margin: .8em 0 0;
+        font-size: 1.05em;
+    }
+
+    .pager {
+        display: flex;
+        align-items: center;
+        gap: .2em;
+        border: 1px solid var(--d7d7d7);
+        border-radius: 999px;
+        background: var(--f8f8f8);
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+    .pager button {
+        border: 0;
+        background: transparent;
+        color: #920505;
+        cursor: pointer;
+        font-size: 1.7em;
+        width: 46px;
+        height: 46px;
+    }
+
+    .pagerCount {
+        min-width: 72px;
+        text-align: center;
+        font-size: .85em;
+        font-weight: 700;
+        color: #777;
+    }
+
+    .layout {
+        display: grid;
+        grid-template-columns: 285px minmax(0, 1fr);
+        gap: 1.4em;
+        align-items: start;
+    }
+
+    .owners {
+        border: 1px solid var(--d7d7d7);
+        border-radius: 14px;
+        background: var(--f8f8f8);
+        overflow: hidden;
+        box-shadow: 0 8px 30px var(--boxShadowThree);
+    }
+
+    .ownersTitle {
+        padding: 1.1em 1.15em;
+        font-size: .78em;
+        font-weight: 800;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: #888;
+        border-bottom: 1px solid var(--d7d7d7);
+    }
+
+    .owner {
+        display: grid;
+        grid-template-columns: 42px minmax(0, 1fr) auto;
+        gap: .8em;
+        align-items: center;
+        width: 100%;
+        border: 0;
+        border-bottom: 1px solid var(--d7d7d7);
+        border-radius: 0;
+        text-align: left;
+        padding: .8em 1em;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        transition: background .15s ease, transform .15s ease;
+    }
+
+    .owner:last-child { border-bottom: 0; }
+    .owner:hover { background: rgba(146, 5, 5, .06); }
+    .owner.active {
+        background: linear-gradient(90deg, rgba(146, 5, 5, .16), rgba(146, 5, 5, .05));
+        box-shadow: inset 4px 0 0 #920505;
+    }
+
+    .ownerAvatar, .placeholderPhoto {
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        overflow: hidden;
+        background: var(--ddd);
+        color: #666;
+        font-weight: 800;
+    }
+
+    .ownerAvatar {
+        width: 42px;
+        height: 42px;
+        font-size: .85em;
+    }
+
+    .ownerAvatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .ownerName {
+        display: block;
+        font-weight: 800;
+        line-height: 1.15em;
+    }
+
+    .ownerTeam {
+        display: block;
+        color: #888;
+        font-size: .78em;
+        margin-top: .25em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .commishBadge {
+        display: inline-grid;
+        place-items: center;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #920505;
+        color: #fff;
+        font-size: .72em;
+        font-weight: 800;
+    }
+
+    .profile {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--d7d7d7);
+        border-radius: 16px;
+        background: var(--f8f8f8);
+        box-shadow: 0 8px 30px var(--boxShadowThree);
+    }
+
+    .profile::before {
+        content: '';
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 6px;
+        background: #920505;
+    }
+
+    .profileHero {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 2.2em;
+        padding: 2.4em;
+        align-items: center;
+    }
+
+    .photoWrap {
+        position: relative;
+        width: 210px;
+        height: 210px;
+    }
+
+    .photo, .placeholderPhoto {
+        width: 210px;
+        height: 210px;
+        border: 5px solid var(--fff);
+        box-shadow: 0 8px 28px var(--boxShadowTwo);
+    }
+
+    .photo {
+        display: block;
+        border-radius: 50%;
+        object-fit: cover;
+        background: var(--ddd);
+    }
+
+    .placeholderPhoto {
+        font-size: 3.6em;
+    }
+
+    .teamChip {
+        position: absolute;
+        left: 50%;
+        bottom: -8px;
+        transform: translateX(-50%);
+        max-width: 185px;
+        padding: .45em .85em;
+        border-radius: 999px;
+        background: #920505;
+        color: #fff;
+        font-size: .72em;
+        font-weight: 800;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        box-shadow: 0 3px 10px var(--boxShadowTwo);
+    }
+
+    .profileKicker {
+        color: #920505;
+        font-size: .76em;
+        font-weight: 800;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        margin-bottom: .5em;
+    }
+
+    .name {
+        font-size: clamp(2.4em, 5vw, 4em);
+        letter-spacing: -.035em;
+        line-height: .95em;
+        margin: 0;
+    }
+
+    .nickname {
+        color: #777;
+        font-size: 1.05em;
+        margin-top: .65em;
+        font-style: italic;
+    }
+
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: .8em;
+        margin-top: 1.7em;
+    }
+
+    .stat {
+        border: 1px solid var(--d7d7d7);
+        border-radius: 10px;
+        padding: .9em 1em;
+        background: var(--fff);
+    }
+
+    .label {
+        display: block;
+        color: #888;
+        font-size: .7em;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+    }
+
+    .value {
+        display: block;
+        font-size: 1.35em;
+        font-weight: 800;
+        margin-top: .3em;
+    }
+
+    .profileBody {
+        display: grid;
+        grid-template-columns: minmax(0, 1.6fr) minmax(230px, .8fr);
+        border-top: 1px solid var(--d7d7d7);
+    }
+
+    .bio, .scouting {
+        padding: 2em 2.4em 2.3em;
+    }
+
+    .scouting {
+        border-left: 1px solid var(--d7d7d7);
+        background: rgba(146, 5, 5, .035);
+    }
+
+    .sectionLabel {
+        display: flex;
+        align-items: center;
+        gap: .6em;
+        color: #920505;
+        font-size: .76em;
+        font-weight: 800;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        margin-bottom: .9em;
+    }
+
+    .sectionLabel::before {
+        content: '';
+        width: 22px;
+        height: 2px;
+        background: #920505;
+    }
+
+    .bio p, .scouting p {
+        color: #777;
+        line-height: 1.72em;
+        margin: 0;
+        white-space: pre-line;
+    }
+
+    .scouting p {
+        font-size: .95em;
+        font-weight: 600;
+    }
+
     .empty { font-style: italic; }
-    @media (max-width: 760px) {
-        .layout { grid-template-columns: 1fr; }
+
+    .mobileRail {
+        display: none;
+    }
+
+    @media (max-width: 900px) {
+        .layout { grid-template-columns: 235px minmax(0, 1fr); }
+        .profileHero { grid-template-columns: 170px minmax(0, 1fr); gap: 1.5em; padding: 2em; }
+        .photoWrap, .photo, .placeholderPhoto { width: 165px; height: 165px; }
+        .profileBody { grid-template-columns: 1fr; }
+        .scouting { border-left: 0; border-top: 1px solid var(--d7d7d7); }
+        .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 700px) {
+        .page { width: 92%; margin-top: 5.5em; }
+        .pageHeader { align-items: flex-start; }
+        .subtitle { font-size: .95em; }
+        .layout { display: block; }
         .owners { display: none; }
-        .profileTop { grid-template-columns: 1fr; text-align: center; }
-        .photo, .placeholderPhoto { margin: auto; }
+
+        .mobileRail {
+            display: flex;
+            gap: .55em;
+            overflow-x: auto;
+            padding: .2em 0 .9em;
+            margin-bottom: .7em;
+            scrollbar-width: none;
+        }
+        .mobileRail::-webkit-scrollbar { display: none; }
+
+        .mobileOwner {
+            flex: 0 0 auto;
+            border: 1px solid var(--d7d7d7);
+            border-radius: 999px;
+            background: var(--f8f8f8);
+            color: inherit;
+            padding: .55em .85em;
+            font: inherit;
+            font-size: .82em;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .mobileOwner.active {
+            background: #920505;
+            border-color: #920505;
+            color: #fff;
+        }
+
+        .profileHero {
+            grid-template-columns: 1fr;
+            text-align: center;
+            padding: 2em 1.4em 1.6em;
+        }
+        .photoWrap { margin: 0 auto .8em; }
         .stats { text-align: left; }
-        .controls { justify-content: center; flex-wrap: wrap; }
+        .profileKicker { margin-top: .3em; }
+        .bio, .scouting { padding: 1.5em; }
+    }
+
+    @media (max-width: 470px) {
+        .pageHeader { display: block; }
+        .pager { margin-top: 1.25em; width: max-content; }
+        .stats { grid-template-columns: 1fr 1fr; }
+        .stat:last-child { grid-column: 1 / -1; }
+        .name { font-size: 2.45em; }
     }
 </style>
 
 <div class="page">
-    <h1>Meet the Team</h1>
-    <p class="subtitle">The 12 owners. The rivalries. The stories behind the NFFFFL.</p>
+    <header class="pageHeader">
+        <div>
+            <span class="eyebrow">NFFFFL Personnel File</span>
+            <h1>Meet the Team</h1>
+            <p class="subtitle">The 12 owners. The rivalries. The stories behind the league.</p>
+        </div>
 
-    <div class="controls">
-        <button onclick={previous} aria-label="Previous owner">‹</button>
-        <select bind:value={selectedIndex} aria-label="Select league owner">
-            {#each meetTheTeamOwners as owner, index}
-                <option value={index}>{owner.name}{owner.commissioner ? ' — Commissioner' : ''}</option>
-            {/each}
-        </select>
-        <button onclick={next} aria-label="Next owner">›</button>
-        <span>{selectedIndex + 1} of {meetTheTeamOwners.length}</span>
+        <div class="pager" aria-label="Owner navigation">
+            <button onclick={previous} aria-label="Previous owner">‹</button>
+            <span class="pagerCount">{selectedIndex + 1} / {meetTheTeamOwners.length}</span>
+            <button onclick={next} aria-label="Next owner">›</button>
+        </div>
+    </header>
+
+    <div class="mobileRail" aria-label="Select league owner">
+        {#each meetTheTeamOwners as owner, index}
+            <button class="mobileOwner" class:active={selectedIndex === index} onclick={() => selectedIndex = index}>
+                {owner.name}
+            </button>
+        {/each}
     </div>
 
     <div class="layout">
         <aside class="owners">
-            <div class="ownersTitle">League Owners (12)</div>
+            <div class="ownersTitle">League Owners · {meetTheTeamOwners.length}</div>
             {#each meetTheTeamOwners as owner, index}
-                <button class:active={selectedIndex === index} class="owner" onclick={() => selectedIndex = index}>
-                    {owner.name}
-                    {#if owner.commissioner}<span class="commissioner">Commissioner</span>{/if}
+                <button class="owner" class:active={selectedIndex === index} onclick={() => selectedIndex = index}>
+                    <span class="ownerAvatar">
+                        {#if owner.photo}
+                            <img src={owner.photo} alt="" />
+                        {:else}
+                            {initials(owner.name)}
+                        {/if}
+                    </span>
+                    <span>
+                        <span class="ownerName">{owner.name}</span>
+                        <span class="ownerTeam">{owner.teamName || 'NFFFFL Owner'}</span>
+                    </span>
+                    {#if owner.commissioner}<span class="commishBadge" title="Commissioner">C</span>{/if}
                 </button>
             {/each}
         </aside>
 
         <section class="profile">
-            <div class="profileTop">
-                {#if selected.photo}
-                    <img class="photo" src={selected.photo} alt={`${selected.name} profile`} />
-                {:else}
-                    <div class="placeholderPhoto" aria-label="Photo coming soon">?</div>
-                {/if}
+            <div class="profileHero">
+                <div class="photoWrap">
+                    {#if selected.photo}
+                        <img class="photo" src={selected.photo} alt={`${selected.name} profile`} />
+                    {:else}
+                        <div class="placeholderPhoto" aria-label="Photo coming soon">{initials(selected.name)}</div>
+                    {/if}
+                    <div class="teamChip">{selected.teamName || 'NFFFFL Owner'}</div>
+                </div>
 
                 <div>
+                    <div class="profileKicker">{selected.commissioner ? 'Commissioner · League Owner' : 'League Owner'}</div>
                     <h2 class="name">{selected.name}</h2>
-                    {#if selected.commissioner}<div class="role">NFFFFL Commissioner</div>{/if}
+                    {#if selected.nickname}<div class="nickname">“{selected.nickname}”</div>{/if}
+
                     <div class="stats">
                         <div class="stat">
                             <span class="label">Age</span>
-                            <span class="value">{selected.age ?? '—'}</span>
+                            <span class="value">{selected.age ?? 'TBD'}</span>
                         </div>
                         <div class="stat">
                             <span class="label">Average Finish</span>
-                            <span class="value">{selected.averageFinish ?? '—'}</span>
+                            <span class="value">{selected.averageFinish ?? 'TBD'}</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Team</span>
+                            <span class="value">{selected.teamName || 'TBD'}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="background">
-                <h3>Background</h3>
-                {#if selected.background}
-                    <p>{selected.background}</p>
-                {:else}
-                    <p class="empty">Profile coming soon. This owner’s biography, league history, and photo will be added as the NFFFFL archive is completed.</p>
-                {/if}
+            <div class="profileBody">
+                <div class="bio">
+                    <div class="sectionLabel">Background</div>
+                    {#if selected.background}
+                        <p>{selected.background}</p>
+                    {:else}
+                        <p class="empty">Biography and league history coming soon. This profile will be expanded as the NFFFFL archive is completed.</p>
+                    {/if}
+                </div>
+
+                <aside class="scouting">
+                    <div class="sectionLabel">Scouting Report</div>
+                    {#if selected.scoutingReport}
+                        <p>{selected.scoutingReport}</p>
+                    {:else}
+                        <p class="empty">Scouting report pending.</p>
+                    {/if}
+                </aside>
             </div>
         </section>
     </div>
