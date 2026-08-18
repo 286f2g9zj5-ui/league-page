@@ -20,7 +20,7 @@ And then there are the trades. Everyone in the league has grown to hate Adam's r
     name: 'Cam',
     teamName: 'Crazy Cams',
     commissioner: false,
-    age: null,
+    age: 31,
     nickname: 'Cam',
     joinedLeague: 2023,
     averageFinish: null,
@@ -34,6 +34,7 @@ Outside of fantasy football, Cam enjoys spending time on the lake. He is happily
   },
   {
     name: 'Abram',
+    teamName: 'My Royal Subjects',
     commissioner: false,
     age: 30,
     nickname: 'Abe / Donkey',
